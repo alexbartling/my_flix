@@ -1,0 +1,22 @@
+<div class='row'>
+	<h3><%= @movie.name %> (<%= @movie.year %>)</h3>
+	<div class='span4'>
+		<%= image_tag @movie.posters.profile %>
+		<div class='ratings'>
+			<%= @movie.scores.critics_score %> | Audience Score: <%= @movie.scores.audience_score %>
+		</div>
+		<p><%= @movie.synopsis %></p>
+	</div>
+</div>
+	<div>
+		<% @movie.reviews.first(3).each do |movie|  %>
+			<p><%= movie.critic %></p>
+			<p><%= movie.date %></p>
+			<p><%= movie.publication %></p>
+			<p>"<%= movie.quote %>"</p>
+		<% end %>
+	</div>
+</div>
+
+
+
