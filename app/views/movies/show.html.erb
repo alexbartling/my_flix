@@ -3,20 +3,47 @@
 	<div class='span4'>
 		<%= image_tag @movie.posters.profile %>
 		<div class='ratings'>
-			<%= @movie.scores.critics_score %> | Audience Score: <%= @movie.scores.audience_score %>
+			 <p>
+			 	Critics Score: <%= @movie.scores.critics_score %> | 
+			 	Audience Score: <%= @movie.scores.audience_score %>
+			 </p>
+			
+			 <p>
+			 	<%= @movie.mpaa_rating %>, <%= @movie.runtime / 60 %>:<%= @movie.runtime % 60 %>
+			 </p>
+			 <p>
+			 	<% if @movie.release_dates['theater'].present? %>
+			 	 In Theaters: <%= Time.parse(@movie.release_dates['theater']).strftime('%b %d, %Y') %>
+			 	 <br>
+			 	<% end %>
+			 	<% if @movie.release_dates['dvd'].present? %>
+			 	 On DVD: <%= Time.parse(@movie.release_dates['dvd']).strftime('%b %d, %Y') %>
+			 	<% end %>
+			 </p>
 		</div>
 		<p><%= @movie.synopsis %></p>
 	</div>
-</div>
-	<div>
-		<% @movie.reviews.first(3).each do |movie|  %>
-			<p><%= movie.critic %></p>
-			<p><%= movie.date %></p>
-			<p><%= movie.publication %></p>
-			<p>"<%= movie.quote %>"</p>
+	<div class='span4 offset2'>
+		<h4>Cast</h4>
+		<% @movie.cast.each do |actor| %>
+			<p><b><%= actor['name'] %></b></p> 
+			<% if actor['characters'].present? %> 
+				<%= actor['characters'].sort_by(&:length).reverse.first  %>
+			<% end %>
 		<% end %>
 	</div>
 </div>
+	
+<div class='row'>
+	<% @movie.reviews.first(3).each do |movie|  %>
+		<div class='span4'>
+			<p><%= movie.critic %></p>
+			<p><%= movie.publication %></p>
+			<p>"<%= movie.quote %>"</p>
+		</div>
+	<% end %>
+</div>
+
 
 
 

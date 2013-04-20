@@ -12,7 +12,8 @@ class MoviesController < ApplicationController
   end
 
   def theaters
-  	@movies = @bf.lists.in_theaters
+  	movies = @bf.lists.in_theaters
+    @movies = movies.sort_by{|movie| movie.scores.critics_score}.reverse
   end
 
   def upcoming_dvds
@@ -26,7 +27,7 @@ class MoviesController < ApplicationController
 
   protected
   	def init_client
-  		@bf = BadFruit.new('5p4tvx77umsuxeq5meaxzjz6')
+  		@bf = BadFruit.new(ENV['ROTTEN_TOMATOES_KEY'])
   	end
 end
 
