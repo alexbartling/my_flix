@@ -1,6 +1,9 @@
 MyFlix::Application.routes.draw do
   root :to => "movies#index"
-  resources :movies
+  resources :movies, :only=>[:show, :index]
+  match '/theaters' => 'movies#theaters'
+  match '/upcoming_dvds' => 'movies#upcoming_dvds'
+  match '/new_dvds' => 'movies#new_dvds'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

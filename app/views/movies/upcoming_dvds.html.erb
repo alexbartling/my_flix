@@ -1,0 +1,7 @@
+<h1>Upcoming</h1>
+<% @movies.find(10).each do |movie| %>
+		<p><%= image_tag movie.posters.thumbnail %></p>
+		<p><%=link_to movie.name, '/movies/' + movie.id %></p>
+		<p><%= movie.synopsis %></p>
+		<p>Critics Score: <%= movie.scores.critics_score %> | Audience Score: <%= movie.scores.audience_score %></p>
+<% end %>
