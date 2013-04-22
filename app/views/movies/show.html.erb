@@ -1,48 +1,59 @@
+
 <div class='row'>
-	<h3><%= @movie.name %> (<%= @movie.year %>)</h3>
-	<div class='span4'>
-		<%= image_tag @movie.posters.profile %>
-		<div class='ratings'>
-			 <p>
-			 	Critics Score: <%= @movie.scores.critics_score %> | 
-			 	Audience Score: <%= @movie.scores.audience_score %>
-			 </p>
-			
-			 <p>
-			 	<%= @movie.mpaa_rating %>, <%= @movie.runtime / 60 %>:<%= @movie.runtime % 60 %>
-			 </p>
-			 <p>
-			 	<% if @movie.release_dates['theater'].present? %>
-			 	 In Theaters: <%= Time.parse(@movie.release_dates['theater']).strftime('%b %d, %Y') %>
-			 	 <br>
-			 	<% end %>
-			 	<% if @movie.release_dates['dvd'].present? %>
-			 	 On DVD: <%= Time.parse(@movie.release_dates['dvd']).strftime('%b %d, %Y') %>
-			 	<% end %>
-			 </p>
-		</div>
-		<p><%= @movie.synopsis %></p>
+	<div class='span2'>
+		<%= image_tag movie_image(@movie.poster_path) %>
 	</div>
-	<div class='span4 offset2'>
-		<h4>Cast</h4>
-		<% @movie.cast.each do |actor| %>
-			<p><b><%= actor['name'] %></b></p> 
-			<% if actor['characters'].present? %> 
-				<%= actor['characters'].sort_by(&:length).reverse.first  %>
-			<% end %>
+	<div class='span10'>
+		<h3><%= @movie.title %></h3>
+		<!-- Button to trigger modal -->
+		<% if !@trailer['youtube'].empty? %>
+		<a href="#myModal" role="button" class="btn" id='trailer_toggle' data-toggle="modal">Trailer</a>
+		<!-- Modal -->
+		<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h3 id="myModalLabel"><%= @movie.title %></h3>
+		  </div>
+		    <iframe width="560" height="315" src='<%= @youtube  %>' frameborder="0" allowfullscreen></iframe>
+		  <div class="modal-footer">
+		    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		  </div>
+		</div>
 		<% end %>
+		<p><i class='icon-star'></i><%= @movie.vote_average %>/10 (<%= @movie.vote_count %>)</p>
+		<p><%= @movie.overview %></p>
+		<table>
+			<tbody>
+				<tr>
+					<td>
+						<% Tmdb::Movie.casts(@movie.id)['cast'].first(4).each do |cast| %>
+						<div class='span4'>
+							<span class='image'>
+								<%= link_to (image_tag movie_image(cast['profile_path'].to_s), :class => 'actor'), 
+											'/celebrities/' + cast['id'].to_s %>
+							</span>
+							<span class='text'><%= cast['name'] %></span>
+						</div>
+						<% end %>
+					</td>		
+				</tr>
+			</tbody>
+		</table>
+		<div>
+			<% Tmdb::Movie.similar_movies(@movie.id)['results'].sample(14).each do |movie| %>
+			<%= link_to (image_tag movie_image(movie['poster_path'].to_s), :class => "poster"),  
+											'/movies/' + movie['id'].to_s %>
+			<% end %>
+		</div>
 	</div>
 </div>
-	
-<div class='row'>
-	<% @movie.reviews.first(3).each do |movie|  %>
-		<div class='span4'>
-			<p><%= movie.critic %></p>
-			<p><%= movie.publication %></p>
-			<p>"<%= movie.quote %>"</p>
-		</div>
-	<% end %>
-</div>
+
+
+
+
+
+
+
 
 
 
