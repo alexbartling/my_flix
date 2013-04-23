@@ -2,18 +2,21 @@ class MoviesController < ApplicationController
   before_filter :badfruit, :moviedb
 
   def index
-  	@dvds = @bf.lists.new_dvd_releases
-    @theaters = @bf.lists.in_theaters
-    @upcoming_dvds = @bf.lists.upcoming_dvd_releases
+  	@movies = Tmdb::Movie.now_playing
+
   end
 
   
 
-  def new_dvds
-  	@movies = @bf.lists.new_dvd_releases
+  def top_rated
+  	@movies = Tmdb::Movie.top_rated
   end
 
-  def theaters
+  def popular
+    @movies = Tmdb::Movie.popular
+  end
+
+  def now_playing
   	@movies = Tmdb::Movie.now_playing
   end
 
@@ -21,9 +24,7 @@ class MoviesController < ApplicationController
   	@movies = Tmdb::Movie.upcoming
   end
 
-  def top_rated
-    @movies = Tmdb::Movie.top_rated
-  end
+  
 
 
   def show

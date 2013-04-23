@@ -1,25 +1,2 @@
 <h3>Popular Movies</h3>
-<div class='row'>
-	<% @movies.each do |movie| %>
-	<div class='span6' id='movie'>
-		<%= link_to (image_tag (movie_image(movie['poster_path']))), '/movies/' + movie['id'].to_s,  
-					  :class => 'movie_poster' %>
-		<div class='info_wrapper'>
-			<div class='movie_info'>
-				<b><%= movie['title']%></b>
-				<p>
-					<i class="icon-star"></i> 
-					<%= movie['vote_average']%>/10 (<%= movie['vote_count'] %> votes)
-				</p>
-				<p>
-					<i class='icon-heart'></i>
-					<%= tmdb_detail(movie['id']).popularity.round(2) %>
-				</p>
-			</div>
-			<% tmdb_detail(movie['id']).genres.each do |genre| %>
-				<%= genre['name'] %>
-			<% end %>
-		</div>
-	</div>
-	<% end %>
-</div>
+<%= render 'list' %>

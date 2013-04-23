@@ -1,35 +1,4 @@
 <h2>New DVDs</h2>
-
-<div class='row'>
-  <% @dvds.each do |movie| %>
-    <div class='span2'>
-      <%= link_to (image_tag movie.posters.thumbnail), '/movies/' + movie.id  %>
-      <p>Ratings:<b><%= movie.scores.audience_score %> | <%= movie.scores.critics_score %></b></p>
-    </div>
-  <% end %>
-</div> 
-
-<h2>Theaters</h2>
-
-<div class='row'>
-  <% @theaters.each do |movie| %>
-    <div class='span2'>
-      <%= link_to (image_tag movie.posters.thumbnail), '/movies/' + movie.id  %>
-      <p>Ratings: <b><%= movie.scores.audience_score %> | <%= movie.scores.critics_score %></b></p>
-    </div>
-  <% end %>
-</div> 
-
-<h2>Upcoming DVDs</h2>
-
-<div class='row'>
-  <% @upcoming_dvds.each do |movie| %>
-    <div class='span2'>
-      <%= link_to movie.name, '/movies/' + movie.id  %>
-      <p>Ratings:<b><%= movie.scores.audience_score %> | <%= movie.scores.critics_score %></b></p>
-    </div>
-  <% end %>
-</div> 
-
+<%= render 'list' %>
 
 
