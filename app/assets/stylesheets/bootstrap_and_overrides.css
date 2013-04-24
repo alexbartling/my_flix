@@ -12,6 +12,12 @@
         background-repeat: repeat;
       }
 
+.center {
+     float: none;
+     margin-left: auto;
+     margin-right: auto;
+}
+
 #movie {
   padding-bottom: 45px;
 }

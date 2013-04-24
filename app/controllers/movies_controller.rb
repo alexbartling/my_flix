@@ -2,7 +2,7 @@ class MoviesController < ApplicationController
   before_filter :badfruit, :moviedb
 
   def index
-  	@movies = Tmdb::Movie.now_playing
+  	
 
   end
 

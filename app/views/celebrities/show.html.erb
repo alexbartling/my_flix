@@ -1,19 +1,36 @@
 <h1><%= @people.name %></h1>
-<%= image_tag 'http://d3gtl9l2a4fn1j.cloudfront.net/t/p/w185' + @people.profile_path.to_s %>
-<p>Born: <%= Date.parse(@people.birthday).strftime("%b %d, %Y") %></p>
-<% if !@people.deathday.empty? %>
-<p>Died: <%= Date.parse(@people.deathday).strftime("%b %d, %Y") %></p>
+<% if @people.profile_path.nil? %>
+	<%= image_tag missing_image, :class => 'actor' %>
+<% else %>
+	<%= image_tag moviedb_image(@people.profile_path) %>
+<% end %>
+
+<% if !@people.birthday.nil? %>
+	<p>Born: <%= Date.parse(@people.birthday).strftime("%b %d, %Y") %></p>
+<% end %>
+<% if !@people.deathday.blank? %>
+	<p>Died: <%= Date.parse(@people.deathday).strftime("%b %d, %Y") %></p>
 <% end %>
 <p><%= @people.place_of_birth %></p>
 <p><%= @people.biography %></p>
-<p><%= @people.biography %></p>
 
 
-	<div class='other_movies'>
-		<% Tmdb::People.credits(@people.id)['cast'].sample(7).each do |movie| %>
-			<%= link_to (image_tag movie_image(movie['poster_path'].to_s), :class => 'poster'),  
-						'/movies/' + movie['id'].to_s %>
+<div class='other_movies'>
+	<% Tmdb::People.credits(@people.id)['cast'].each do |movie| %>
+		<% if !movie['poster_path'].nil? %>
+		<%= link_to (image_tag movie_image(movie['poster_path'].to_s), :class => 'poster'),  
+					movie_path(movie['id'].to_s) %>
 		<% end %>
-	</div>
+	<% end %>
+</div>
 
 
+<h4>Career</h4>
+<% @career.reverse.each do |movie| %>
+<% if !movie['release_date'].nil? %>
+<p>
+	<%= Date.parse(movie['release_date']).strftime("%b %d, %Y") %> 
+	<%= link_to movie['title'], movie_path(movie['id'].to_s) %>
+</p>
+	<% end %>
+<% end %>

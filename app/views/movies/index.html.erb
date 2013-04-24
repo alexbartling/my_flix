@@ -1,4 +1,12 @@
-<h2>New DVDs</h2>
-<%= render 'list' %>
+<h1>Welcome</h1>
+
+<%= form_tag search_path, :method => 'get' do %>
+ 
+    <%= text_field_tag :search, params[:search], :class => "span6",  :placeholder => 'movies, actors' %>
+        <br>
+        <%= submit_tag "Search", :class => 'btn btn-primary', :name => nil %>
+   
+ 
+<% end %>
 
 

@@ -1,4 +1,6 @@
 MyFlix::Application.routes.draw do
+  match 'search' => "search#index"
+
   resources :celebrities, :only => [:show, :index]
 
   root :to => "movies#index"
